@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { fetchMultipleItems } from "../../lib/fetch";
-import { Person, ResponseMultiple } from "../../lib/utils/types";
+import { useEffect, useState } from "react";
+import { fetchMultipleItems, fetchSingleItem } from "../../lib/fetch";
+import { Films, Person, ResponseMultiple, Starships } from "../../lib/utils/types";
 import React from "react";
+import Modal from "./Modal";
 
 function HeroesList() {
   const {
@@ -19,10 +20,30 @@ function HeroesList() {
     getNextPageParam: (lastPage) => lastPage.next || null,
   });
 
+  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+  const [films, setFilms] = useState<Films[]>([]);
+  const [starships, setStarships] = useState<Starships[]>([]);
+
   const loadMore = () => {
     if (hasNextPage) {
       fetchNextPage();
     }
+  };
+
+  const openModal = async (person: Person) => {
+    setSelectedPerson(person);
+
+    const filmsData = await fetchMultipleItems<Films>(`${process.env.REACT_APP_BASE_URL}films/?characters__in=${person.films.join()}`);
+    const starshipsData = await fetchMultipleItems<Films>(`${process.env.REACT_APP_BASE_URL}starships/?pilots__in=${person.id}`);
+
+    setFilms(filmsData.results as Films[]);
+    setStarships(starshipsData.results as Starships[]);
+  };
+
+  const closeModal = () => {
+    setSelectedPerson(null);
+    setFilms([]);
+    setStarships([]);
   };
 
   useEffect(() => {
@@ -54,11 +75,24 @@ function HeroesList() {
       {data?.pages.map((page, pageIndex) => (
         <React.Fragment key={pageIndex}>
           {(page.results as Person[]).map((item) => (
-            <li key={item.id}>{item.name}</li>
+            <button
+            className="text-blue-500 hover:underline"
+            onClick={() => openModal(item)}
+          >
+            {item.name}
+          </button>
           ))}
         </React.Fragment>
       ))}
     </ul>
+    {selectedPerson && (
+        <Modal 
+          person={selectedPerson} 
+          films={films} 
+          starships={starships} 
+          onClose={closeModal} 
+        />
+      )}
     <button onClick={() => {
       loadMore();
     }}>
