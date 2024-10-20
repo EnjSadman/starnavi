@@ -4,7 +4,7 @@ import { Edge, ReactFlow, Node } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
 interface ModalProps {
-  person: Person | null;
+  character: Person | null;
   films: Films[];
   starships: Starships[];
   onClose: () => void;
@@ -15,8 +15,8 @@ const NODE_PADDING = 10;
 const NODE_BORDER_RADIUS = 5;
 const FILM_POSITION_X_INCREMENT = 200;
 
-const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
-  if (!person) return null;
+const Modal: React.FC<ModalProps> = ({ character, films, starships, onClose }) => {
+  if (!character) return null;
   const starshipMap: Record<string, string> = {};
   const edges: Edge[] = [];
 
@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
     {
       id: 'character',
       type: 'default',
-      data: { label: person.name },
+      data: { label: character.name },
       position: { x: 250, y: 50 },
       style: { background: '#f0f0f0', padding: NODE_PADDING, borderRadius: NODE_BORDER_RADIUS, width: NODE_WIDTH },
     },
@@ -82,7 +82,7 @@ const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-full max-w-2xl relative">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">{person.name}</h2>
+          <h2 className="text-xl font-semibold">{character.name}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">&times;</button>
         </div>
         <div style={{ height: '600px', width: '100%' }}>

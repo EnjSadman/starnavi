@@ -3,20 +3,20 @@ import CharactersListItemCell from "../atoms/CharacterListItemCell";
 
 
 interface CharactersListItemProps {
-  person : Person,
-  click : (person : Person) => Promise<void>
+  character: Person,
+  click: (person : Person) => Promise<void>
 }
 
 // This component used to display single person data
 
-function CharactersListItem({person, click} : CharactersListItemProps) {
+function CharactersListItem({character, click} : CharactersListItemProps) {
   return (
     <div
       className="min-h-20 flex justify-between items-center cursor-pointer border-b-2 border-black"
-      onClick={() => click(person)}
+      onClick={() => click(character)}
     >
-      <CharactersListItemCell content={person.name} />
-      <CharactersListItemCell content={person.gender} />
+      <CharactersListItemCell content={character.name} />
+      <CharactersListItemCell content={character.gender} />
     </div>
   )
 }
