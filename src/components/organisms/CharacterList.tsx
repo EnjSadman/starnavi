@@ -4,10 +4,13 @@ import { fetchMultipleItems } from "../../lib/fetch";
 import { Films, Person, ResponseMultiple, Starships } from "../../lib/utils/types";
 import React from "react";
 import Modal from "./Modal";
-import HeroesListItem from "../molecules/HeroesListItem";
-import _ from 'lodash'
 
-function HeroesList() {
+import _ from 'lodash';
+import CharactersListItem from "../molecules/CharacterListItem";
+
+const THROTTLE_TIME = 400;
+
+function CharactersList() {
   const {
     data,
     isLoading,
@@ -26,12 +29,6 @@ function HeroesList() {
   const [films, setFilms] = useState<Films[]>([]);
   const [starships, setStarships] = useState<Starships[]>([]);
 
-  const loadMore = () => {
-    if (hasNextPage) {
-      fetchNextPage();
-    }
-  };
-
   const openModal = async (person: Person) => {
     setSelectedPerson(person);
 
@@ -49,15 +46,20 @@ function HeroesList() {
   };
 
   useEffect(() => {
+    const loadMore = () => {
+      if (hasNextPage) {
+        fetchNextPage();
+      }
+    };
     const onScroll = _.throttle(() => {
        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 500) {
          loadMore();
        }
-    }, 400);
+    }, THROTTLE_TIME);
 
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
-  }, [loadMore, hasNextPage]);
+  }, [fetchNextPage, hasNextPage]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -74,7 +76,7 @@ function HeroesList() {
       {data?.pages.map((page, pageIndex) => (
         <React.Fragment key={pageIndex}>
           {(page.results as Person[]).map((item) => (
-            <HeroesListItem person={item} click={openModal}/>
+            <CharactersListItem person={item} click={openModal}/>
           ))}
         </React.Fragment>
       ))}
@@ -94,4 +96,4 @@ function HeroesList() {
   )
 }
 
-export default HeroesList;
+export default CharactersList;

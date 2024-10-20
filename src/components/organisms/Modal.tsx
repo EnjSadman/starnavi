@@ -1,7 +1,7 @@
 import React from 'react';
 import { Films, Person, Starships } from '../../lib/utils/types';
-import '@xyflow/react/dist/style.css';
 import { Edge, ReactFlow, Node } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 
 interface ModalProps {
   person: Person | null;
@@ -9,6 +9,11 @@ interface ModalProps {
   starships: Starships[];
   onClose: () => void;
 }
+
+const NODE_WIDTH = 200;
+const NODE_PADDING = 10;
+const NODE_BORDER_RADIUS = 5;
+const FILM_POSITION_X_INCREMENT = 200;
 
 const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
   if (!person) return null;
@@ -21,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
       type: 'default',
       data: { label: person.name },
       position: { x: 250, y: 50 },
-      style: { background: '#f0f0f0', padding: 10, borderRadius: 5, width: 200 },
+      style: { background: '#f0f0f0', padding: NODE_PADDING, borderRadius: NODE_BORDER_RADIUS, width: NODE_WIDTH },
     },
   ];
 
@@ -36,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
       type: 'default',
       data: { label: film.title },
       position: { x: filmPositionX, y: 200 },
-      style: { background: '#fff', padding: 10, borderRadius: 5, width: 150 },
+      style: { background: '#fff', padding: NODE_PADDING, borderRadius: NODE_BORDER_RADIUS, width: NODE_WIDTH },
     });
 
     edges.push({
@@ -55,8 +60,8 @@ const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
             id: starshipNodeId,
             type: 'default',
             data: { label: starship.name },
-            position: { x: filmPositionX, y: starshipPositionY + (index * 150) },
-            style: { background: '#e0e0e0', padding: 10, borderRadius: 5, width: 150 },
+            position: { x: filmPositionX, y: starshipPositionY + (index * 50) },
+            style: { background: '#e0e0e0', padding: NODE_PADDING, borderRadius: NODE_BORDER_RADIUS, width: NODE_WIDTH },
           });
 
           starshipMap[starshipNodeId] = starshipNodeId;
@@ -70,7 +75,7 @@ const Modal: React.FC<ModalProps> = ({ person, films, starships, onClose }) => {
       }
     });
 
-    filmPositionX += 200;
+    filmPositionX += FILM_POSITION_X_INCREMENT;
   });
 
   return (

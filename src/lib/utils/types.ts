@@ -1,3 +1,5 @@
+//this file for types of data. If there more types I prefer to split this file
+
 export type Person = {
   id: number,
   name: string,
