@@ -6,7 +6,7 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App container">
+    <div className="App container mx-auto">
     <QueryClientProvider client={queryClient}>
       <HeroesList />
     </QueryClientProvider>
