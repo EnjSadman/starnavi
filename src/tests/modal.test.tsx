@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Films, Person, Starships } from '../lib/utils/types';
 import Modal from '../components/organisms/Modal';
+import { fetchMultipleItems } from '../lib/fetch';
 
 // Mock ReactFlow to avoid testing the external library itself
 jest.mock('@xyflow/react', () => ({
@@ -21,6 +22,10 @@ jest.mock('@xyflow/react', () => ({
       </div>
     );
   },
+}));
+
+jest.mock('../lib/fetch', () => ({
+  fetchMultipleItems: jest.fn(),
 }));
 
 describe('Modal component', () => {
@@ -86,7 +91,15 @@ describe('Modal component', () => {
 
   const onCloseMock = jest.fn();
 
+  beforeEach(() => {
+    (fetchMultipleItems as jest.Mock).mockResolvedValue({ results: [] });
+  });
+
   test('renders the modal with the correct data', async() => {
+    (fetchMultipleItems as jest.Mock)
+    .mockResolvedValueOnce({ results: mockFilms })
+    .mockResolvedValueOnce({ results: mockStarships });
+    
     render(
       <Modal 
         character={mockCharacter} 

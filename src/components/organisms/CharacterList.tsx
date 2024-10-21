@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { fetchMultipleItems } from "../../lib/fetch";
-import { Films, Person, ResponseMultiple, Starships } from "../../lib/utils/types";
+import { Person, ResponseMultiple } from "../../lib/utils/types";
 import React from "react";
 import Modal from "./Modal";
 import _ from 'lodash';

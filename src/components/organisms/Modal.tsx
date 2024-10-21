@@ -23,8 +23,8 @@ const Modal: React.FC<ModalProps> = ({ character, onClose }) => {
       const filmsData = await fetchMultipleItems<Films>(`${process.env.REACT_APP_BASE_URL}films/?characters__in=${character.films.join()}`);
       const starshipsData = await fetchMultipleItems<Starships>(`${process.env.REACT_APP_BASE_URL}starships/?pilots__in=${character.id}`);
       
-          setFilms(filmsData.results as Films[]);
-          setStarships(starshipsData.results as Starships[]);
+      setFilms(filmsData.results as Films[]);
+      setStarships(starshipsData.results as Starships[]);
     }
   }
 
