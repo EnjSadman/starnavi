@@ -90,8 +90,6 @@ describe('Modal component', () => {
     render(
       <Modal 
         character={mockCharacter} 
-        films={mockFilms} 
-        starships={mockStarships} 
         onClose={onCloseMock} 
       />
     );
@@ -114,8 +112,6 @@ describe('Modal component', () => {
     render(
       <Modal 
         character={mockCharacter} 
-        films={mockFilms} 
-        starships={mockStarships} 
         onClose={onCloseMock} 
       />
     );
@@ -132,8 +128,6 @@ describe('Modal component', () => {
     render(
       <Modal 
         character={null} 
-        films={mockFilms} 
-        starships={mockStarships} 
         onClose={onCloseMock} 
       />
     );

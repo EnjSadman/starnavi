@@ -29,28 +29,17 @@ function CharactersList() {
 
   // states of modal
   const [selectedCharacters, setSelectedCharacters] = useState<Person | null>(null);
-  const [films, setFilms] = useState<Films[]>([]);
-  const [starships, setStarships] = useState<Starships[]>([]);
+
 
 
   //function to open modal
   const openModal = async (character: Person) => {
     setSelectedCharacters(character);
-
-
-    // on modal open, fetch all films where character was, and all spacecrafts that character piloted in those films
-    const filmsData = await fetchMultipleItems<Films>(`${process.env.REACT_APP_BASE_URL}films/?characters__in=${character.films.join()}`);
-    const starshipsData = await fetchMultipleItems<Starships>(`${process.env.REACT_APP_BASE_URL}starships/?pilots__in=${character.id}`);
-
-    setFilms(filmsData.results as Films[]);
-    setStarships(starshipsData.results as Starships[]);
   };
 
   // function to close modal, and empty the state.
   const closeModal = () => {
     setSelectedCharacters(null);
-    setFilms([]);
-    setStarships([]);
   };
 
   useEffect(() => {
@@ -85,12 +74,12 @@ function CharactersList() {
  
   return (
     <div>
-    <h1>Items List</h1>
+    <h1 className="text-3xl">Items List</h1>
     <div>
       {data?.pages.map((page, pageIndex) => (
         <React.Fragment key={pageIndex}>
           {(page.results as Person[]).map((item) => (
-            <CharactersListItem character={item} click={openModal}/>
+            <CharactersListItem key={item.id} character={item} click={openModal}/>
           ))}
         </React.Fragment>
       ))}
@@ -99,8 +88,6 @@ function CharactersList() {
     {selectedCharacters && (
         <Modal 
           character={selectedCharacters} 
-          films={films} 
-          starships={starships} 
           onClose={closeModal} 
         />
       )}

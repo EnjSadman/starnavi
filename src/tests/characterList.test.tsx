@@ -39,6 +39,7 @@ test('renders loading state correctly', () => {
 });
 
 test('displays fetched data correctly', async () => {
+  //mock fetch for Person type
   (fetchMultipleItems as jest.Mock).mockResolvedValueOnce({
     results: [{ name: 'Luke Skywalker', films: [1] }],
     next: null,
@@ -52,5 +53,7 @@ test('displays fetched data correctly', async () => {
     </QueryClientProvider>
   );
   
-  expect(await screen.findByText(/Items List/i)).toBeInTheDocument();
+
+  //check if fetched name on page
+  expect(await screen.findByText(/Luke Skywalker/i)).toBeInTheDocument();
 });

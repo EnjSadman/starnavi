@@ -6,7 +6,7 @@ interface CharactersListItemCellProps {
 
 function CharactersListItemCell({content} : CharactersListItemCellProps) {
   return (
-    <p>
+    <p className="text-lg">
       {content}
     </p>
   )

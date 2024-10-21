@@ -12,7 +12,7 @@ interface CharactersListItemProps {
 function CharactersListItem({character, click} : CharactersListItemProps) {
   return (
     <div
-      className="min-h-20 flex justify-between items-center cursor-pointer border-b-2 border-black"
+      className="min-h-20 p-4 flex justify-between items-center cursor-pointer border-b-2 border-black hover:shadow-lg"
       onClick={() => click(character)}
     >
       <CharactersListItemCell content={character.name} />
